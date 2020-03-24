@@ -6,7 +6,12 @@ public class WeatherResponse {
     public WeatherResponse(double temp) {
         main = new Main(temp);
     }
-//    private int integer;
+
+    public Main getMain() {
+        return main;
+    }
+
+    //    private int integer;
 //
 //    public WeatherResponse(int integer) {
 //        this.integer = integer;

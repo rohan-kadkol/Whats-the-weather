@@ -6,4 +6,8 @@ public class Main {
     public Main(double temp) {
         this.temp = temp;
     }
+
+    public double getTemp() {
+        return temp;
+    }
 }

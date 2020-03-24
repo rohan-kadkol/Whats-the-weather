@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         builder.appendQueryParameter("appid", "");
         Uri uri = builder.build();
         URL url = null;
-        WeatherResponse weatherResponse;
+        WeatherResponse weatherResponse = null;
         try {
             url = new URL(uri.toString());
             String jsonResponse = InternetUtils.makeHttpRequest(url);
@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        TextView textView = findViewById(R.id.tv_weather);
-        textView.setText(temp);
+        if (weatherResponse != null) {
+            double temp = weatherResponse.getMain().getTemp();
+            TextView textView = findViewById(R.id.tv_weather);
+            textView.setText(String.valueOf(temp));
+        }
     }
 }
