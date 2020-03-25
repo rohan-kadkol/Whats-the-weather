@@ -1,7 +1,10 @@
 package com.rohankadkol.activityweatherapp2.utils;
 
+import android.net.Uri;
+
 import com.rohankadkol.activityweatherapp2.pojos.WeatherResponse;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,10 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
 public class InternetUtils {
+    private static final String API_KEY = "217c95573eff743f39dd721b7c519cb2";
+
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
@@ -62,19 +68,44 @@ public class InternetUtils {
     }
 
     public static WeatherResponse extractWeatherFromJson(String jsonResponse) {
-        double temp = 0;
+        double temp = 0, tempMin = 0, tempMax = 0;
+        String mainWeather = null, description = null, icon = null;
         try {
             JSONObject root = new JSONObject(jsonResponse);
+
             JSONObject main = root.getJSONObject("main");
             temp = main.getDouble("temp");
+            tempMin = main.getDouble("tempMin");
+            tempMax = main.getDouble("tempMax");
+
+            // TODO: Get the values of mainWeather, description, and the icon strings from the jsonResponse
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return new WeatherResponse(temp);
+        return new WeatherResponse(temp, tempMin, tempMax, mainWeather, description, icon);
     }
-    // TO get JSON Object with a specific key
-    //            JSONObject object = root.getJSONObject("key");
-    //            // To get an int from a JSON Object with a particular key
-    //            int integer = object.getInt("key");
+
+    public static URL createUrl(String location) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https");
+        builder.authority("api.openweathermap.org");
+        builder.path("data/2.5/weather");
+        builder.appendQueryParameter("q", location);
+        builder.appendQueryParameter("appid", API_KEY);
+        builder.appendQueryParameter("units", "imperial");
+
+        Uri uri = builder.build();
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+    // To get JSON Object with a specific key
+    //  JSONObject object = root.getJSONObject("key");
+    // To get an int from a JSON Object with a particular key
+    //  int integer = object.getInt("key");
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.rohankadkol.activityweatherapp2.pojos.WeatherResponse;
 import com.rohankadkol.activityweatherapp2.utils.InternetUtils;
+import com.rohankadkol.activityweatherapp2.utils.StringUtils;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,24 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         String location = "baton rouge";
 
-//        StringBuilder builder = new StringBuilder();
-//        builder.append("as");
-//        String string = builder.toString();
-
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https");
-        builder.authority("api.openweathermap.org");
-        builder.appendPath("data");
-        builder.appendPath("2.5");
-        builder.appendPath("weather");
-        builder.appendQueryParameter("q", location);
-        // TODO: Enter your API Key below
-        builder.appendQueryParameter("appid", "");
-        Uri uri = builder.build();
-        URL url = null;
         WeatherResponse weatherResponse = null;
         try {
-            url = new URL(uri.toString());
+            URL url = InternetUtils.createUrl(location);
             String jsonResponse = InternetUtils.makeHttpRequest(url);
             weatherResponse = InternetUtils.extractWeatherFromJson(jsonResponse);
         } catch (IOException e) {
@@ -48,9 +34,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (weatherResponse != null) {
-            double temp = weatherResponse.getMain().getTemp();
             TextView textView = findViewById(R.id.tv_weather);
-            textView.setText(String.valueOf(temp));
+            textView.setText(StringUtils.generateWeatherString(weatherResponse));
         }
     }
 }
