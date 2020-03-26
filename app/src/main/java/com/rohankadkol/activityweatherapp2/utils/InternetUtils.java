@@ -18,7 +18,8 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class InternetUtils {
-    private static final String API_KEY = "217c95573eff743f39dd721b7c519cb2";
+    // TODO: Enter your API Key
+    private static final String API_KEY = "";
 
     /**
      * Make an HTTP request to the given URL and return a String as the response.
@@ -75,10 +76,17 @@ public class InternetUtils {
 
             JSONObject main = root.getJSONObject("main");
             temp = main.getDouble("temp");
-            tempMin = main.getDouble("tempMin");
-            tempMax = main.getDouble("tempMax");
+            tempMin = main.getDouble("temp_min");
+            tempMax = main.getDouble("temp_max");
 
             // TODO: Get the values of mainWeather, description, and the icon strings from the jsonResponse
+            // To get a JSONObject from a JSONArray
+            //  jsonArray.getJSONObject(index);
+            JSONArray weatherList = root.getJSONArray("weather");
+            JSONObject weather = weatherList.getJSONObject(0);
+            mainWeather = weather.getString("main");
+            description = weather.getString("description");
+            icon = weather.getString("icon");
         } catch (JSONException e) {
             e.printStackTrace();
         }
