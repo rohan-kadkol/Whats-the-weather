@@ -1,8 +1,12 @@
-package com.rohankadkol.activityweatherapp2.utils;
+package com.rohankadkol.whatstheweather.utils;
 
+import android.app.Activity;
 import android.net.Uri;
+import android.os.Build;
+import android.text.TextUtils;
 
-import com.rohankadkol.activityweatherapp2.pojos.WeatherResponse;
+import com.rohankadkol.whatstheweather.BuildConfig;
+import com.rohankadkol.whatstheweather.pojos.WeatherResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,8 +22,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class InternetUtils {
-    // TODO: Enter your API Key
-    private static final String API_KEY = "";
+    private static final String API_KEY = BuildConfig.API_KEY;
 
     /**
      * Make an HTTP request to the given URL and return a String as the response.
@@ -69,6 +72,10 @@ public class InternetUtils {
     }
 
     public static WeatherResponse extractWeatherFromJson(String jsonResponse) {
+        if (TextUtils.isEmpty(jsonResponse)) {
+            return null;
+        }
+
         double temp = 0, tempMin = 0, tempMax = 0;
         String mainWeather = null, description = null, icon = null;
         try {
@@ -116,4 +123,8 @@ public class InternetUtils {
     //  JSONObject object = root.getJSONObject("key");
     // To get an int from a JSON Object with a particular key
     //  int integer = object.getInt("key");
+
+    public static void loadWeather(Activity activity) {
+
+    }
 }

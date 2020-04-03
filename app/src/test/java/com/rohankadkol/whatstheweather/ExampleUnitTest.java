@@ -1,4 +1,4 @@
-package com.rohankadkol.activityweatherapp2;
+package com.rohankadkol.whatstheweather;
 
 import org.junit.Test;
 

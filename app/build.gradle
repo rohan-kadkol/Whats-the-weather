@@ -12,9 +12,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            buildConfigField('String', "API_KEY", WHATS_THE_WEATHER_API_KEY)
+            resValue('string', "API_KEY", WHATS_THE_WEATHER_API_KEY)
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', "API_KEY", WHATS_THE_WEATHER_API_KEY)
+            resValue('string', "API_KEY", WHATS_THE_WEATHER_API_KEY)
         }
     }
 }
@@ -26,4 +32,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

@@ -1,4 +1,4 @@
-package com.rohankadkol.activityweatherapp2.pojos;
+package com.rohankadkol.whatstheweather.pojos;
 
 public class Main {
     private double temp;
