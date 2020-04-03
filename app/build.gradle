@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.rohankadkol.activityweatherapp2"
+        applicationId "com.rohankadkol.whatstheweather"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -35,4 +35,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // Google AdMob
+    implementation 'com.google.android.gms:play-services-ads:19.0.1'
 }

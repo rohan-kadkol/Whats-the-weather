@@ -20,11 +20,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.rohankadkol.whatstheweather.loaders.CustomLoader;
 import com.rohankadkol.whatstheweather.pojos.WeatherResponse;
 import com.rohankadkol.whatstheweather.utils.StringUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<WeatherResponse> {
     String mLocation = "";
@@ -39,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ConstraintLayout mRootLayout;
     ProgressBar mProgressBar;
     TextView tvError;
+    AdView mAdView;
 
     private static final int LOADER_ID = 0;
 
@@ -57,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRootLayout = findViewById(R.id.root_layout);
         mProgressBar = findViewById(R.id.progress_bar);
         tvError = findViewById(R.id.error_view);
+        mAdView = findViewById(R.id.adView);
 
         if (savedInstanceState != null) {
             mLocation = savedInstanceState.getString(getString(R.string.key_location));
@@ -64,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         setupListeners();
         loadWeather(mLocation);
+        loadAds();
     }
 
     @Override
@@ -133,6 +146,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public void modifyErrorViewVisibility(int visibility) {
         tvError.setVisibility(visibility);
+    }
+
+    public void loadAds() {
+        List<String> testDeviceIds = Collections.singletonList("16E5769DF269BE0BB2C006411F23C641");
+        RequestConfiguration configuration =
+                new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
+        MobileAds.setRequestConfiguration(configuration);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @NonNull
